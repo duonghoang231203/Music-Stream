@@ -3,7 +3,6 @@ package com.example.musicstream
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import androidx.annotation.OptIn
 import androidx.media3.common.Player
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
@@ -14,17 +13,17 @@ import com.example.musicstream.databinding.ActivityPlayerBinding
 
 class PlayerActivity : AppCompatActivity() {
 
-    lateinit var binding: ActivityPlayerBinding
-    lateinit var exoPlayer: ExoPlayer
+    private lateinit var binding: ActivityPlayerBinding
+    private lateinit var exoPlayer: ExoPlayer
 
-    var playerListener = object : Player.Listener{
+    private var playerListener = object : Player.Listener{
         override fun onIsPlayingChanged(isPlaying: Boolean) {
             super.onIsPlayingChanged(isPlaying)
             showGif(isPlaying)
         }
     }
 
-    @OptIn(UnstableApi::class) override fun onCreate(savedInstanceState: Bundle?) {
+    @UnstableApi override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPlayerBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -51,7 +50,7 @@ class PlayerActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        exoPlayer?.removeListener(playerListener)
+        exoPlayer.removeListener(playerListener)
     }
 
     fun showGif(show : Boolean){
