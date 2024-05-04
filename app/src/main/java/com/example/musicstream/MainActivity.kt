@@ -36,6 +36,7 @@ class MainActivity : AppCompatActivity() {
         setupSection("section_2",binding.section2MainLayout,binding.section2Title,binding.section2RecyclerView)
         setupSection("section_3",binding.section3MainLayout,binding.section3Title,binding.section3RecyclerView)
         setupMostlyPlayed("mostly_played",binding.mostlyPlayedMainLayout,binding.mostlyPlayedTitle,binding.mostlyPlayedRecyclerView)
+        setupSearchButton()
 
         binding.optionBtn.setOnClickListener {
             showPopupMenu()
@@ -55,6 +56,13 @@ class MainActivity : AppCompatActivity() {
                 }
             }
             false
+        }
+    }
+
+
+    private fun setupSearchButton() {
+        binding.searchButton.setOnClickListener {
+            startActivity(Intent(this@MainActivity, SearchSongActivity::class.java))
         }
     }
 
@@ -119,7 +127,6 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             }
-
     }
 
     fun setupMostlyPlayed(id : String,mainLayout : RelativeLayout,titleView : TextView,recyclerView: RecyclerView) {
@@ -150,5 +157,4 @@ class MainActivity : AppCompatActivity() {
                     }
             }
     }
-
 }

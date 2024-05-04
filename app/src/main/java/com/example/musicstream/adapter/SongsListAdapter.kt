@@ -9,12 +9,11 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.example.musicstream.MyExoplayer
 import com.example.musicstream.PlayerActivity
-import com.example.musicstream.SongsListActivity
 import com.example.musicstream.databinding.SongListItemRecyclerRowBinding
 import com.example.musicstream.models.SongModel
 import com.google.firebase.firestore.FirebaseFirestore
 
-class SongsListAdapter(private val songIdList: List<String>) :
+class SongsListAdapter(private  val songIdList : List<String>) :
     RecyclerView.Adapter<SongsListAdapter.MyViewHolder>() {
 
     class MyViewHolder(private val binding: SongListItemRecyclerRowBinding) : RecyclerView.ViewHolder(binding.root){
@@ -23,7 +22,7 @@ class SongsListAdapter(private val songIdList: List<String>) :
 
             FirebaseFirestore.getInstance().collection("songs")
                 .document(songId).get()
-                .addOnSuccessListener {
+                .addOnSuccessListener { it ->
                     val song = it.toObject(SongModel::class.java)
                     song?.apply {
                         binding.songTitleTextView.text = title
@@ -35,7 +34,7 @@ class SongsListAdapter(private val songIdList: List<String>) :
                             .into(binding.songCoverImageView)
                         binding.root.setOnClickListener {
                             MyExoplayer.startPlaying(binding.root.context,song)
-                            it.context.startActivity(Intent(it.context,PlayerActivity::class.java))
+                            it.context.startActivity(Intent(it.context, PlayerActivity::class.java))
                         }
                     }
                 }
@@ -55,4 +54,5 @@ class SongsListAdapter(private val songIdList: List<String>) :
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.bindData(songIdList[position])
     }
+
 }
