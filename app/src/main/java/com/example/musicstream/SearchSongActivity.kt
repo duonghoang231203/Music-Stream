@@ -3,7 +3,7 @@ package com.example.musicstream
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.musicstream.adapter.SongsListAdapter
+import com.example.musicstream.adapter.SearchSongRecyclerAdapter
 import com.example.musicstream.databinding.ActivitySearchSongBinding
 import com.example.musicstream.models.SongModel
 import com.google.firebase.firestore.FirebaseFirestore
@@ -11,7 +11,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 class SearchSongActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySearchSongBinding
-    private lateinit var adapter: SongsListAdapter
+    private lateinit var adapter: SearchSongRecyclerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,7 +57,7 @@ class SearchSongActivity : AppCompatActivity() {
 
     private fun setupRecyclerView(songList: List<SongModel>) {
         val songTitles = songList.map { it.title }
-        adapter = SongsListAdapter(songTitles)
+        adapter = SearchSongRecyclerAdapter(songList)
         binding.searchSongRecyclerView.layoutManager = LinearLayoutManager(this)
         binding.searchSongRecyclerView.adapter = adapter
     }

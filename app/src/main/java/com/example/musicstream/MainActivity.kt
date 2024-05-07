@@ -12,9 +12,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
+import com.example.musicstream.adapter.ArtistAdapter
 import com.example.musicstream.adapter.CategoryAdapter
 import com.example.musicstream.adapter.SectionSongListAdapter
 import com.example.musicstream.databinding.ActivityMainBinding
+import com.example.musicstream.models.ArtistModel
 import com.example.musicstream.models.CategoryModel
 import com.example.musicstream.models.SongModel
 import com.google.firebase.auth.FirebaseAuth
@@ -26,12 +28,14 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityMainBinding
     lateinit var categoryAdapter: CategoryAdapter
+    lateinit var artistAdapter: ArtistAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         getCategories()
+        getArtists()
         setupSection("section_1",binding.section1MainLayout,binding.section1Title,binding.section1RecyclerView)
         setupSection("section_2",binding.section2MainLayout,binding.section2Title,binding.section2RecyclerView)
         setupSection("section_3",binding.section3MainLayout,binding.section3Title,binding.section3RecyclerView)
@@ -156,5 +160,19 @@ class MainActivity : AppCompatActivity() {
                         }
                     }
             }
+    }
+
+    fun getArtists(){
+        FirebaseFirestore.getInstance().collection("artist")
+            .get().addOnSuccessListener {
+                val artistList = it.toObjects(ArtistModel::class.java)
+                setupArtistRecyclerView(artistList)
+            }
+    }
+
+    fun setupArtistRecyclerView(artistList: List<ArtistModel>){
+        artistAdapter = ArtistAdapter(artistList)
+        binding.artistsRecyclerView.layoutManager = LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false)
+        binding.artistsRecyclerView.adapter = artistAdapter
     }
 }
